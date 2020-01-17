@@ -1,0 +1,99 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:3.5.3")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61")
+        classpath "org.jetbrains.kotlin:kotlin-serialization:1.3.61"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+
+allprojects {
+    repositories {
+        jcenter()
+        google()
+    }
+}
+
+apply plugin: 'kotlin-multiplatform'
+apply plugin: 'com.android.library'
+apply plugin: 'kotlinx-serialization'
+
+
+group = "org.example"
+version = "1.0-SNAPSHOT"
+
+repositories {
+
+    mavenCentral()
+}
+kotlin {
+
+    /* Targets configuration omitted.
+    *  To find out how to configure the targets, please follow the link:
+    *  https://kotlinlang.org/docs/reference/building-mpp-with-gradle.html#setting-up-targets */
+    android("jvm") {
+    }
+    js() {
+        nodejs()
+    }
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                api 'org.jetbrains.kotlin:kotlin-stdlib-common'
+                api "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.3"
+                api "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serialization_version"
+                api "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
+                api "io.ktor:ktor-client:$ktor_version"
+                api "io.ktor:ktor-client-json:$ktor_version"
+                api "io.ktor:ktor-client-serialization:$ktor_version"
+            }
+        }
+        commonTest {
+            dependencies {
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+            }
+        }
+        jsMain {
+            dependencies {
+                api 'org.jetbrains.kotlin:kotlin-stdlib-js'
+                api "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.3.3"
+                api "io.ktor:ktor-client-json-js:$ktor_version"
+                api "io.ktor:ktor-client-js:$ktor_version"
+                api "io.ktor:ktor-client-serialization-js:$ktor_version"
+
+            }
+        }
+
+
+        jvmMain {
+            dependencies {
+                api 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+                api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
+                api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3"
+                api "io.ktor:ktor-client-json-jvm:$ktor_version"
+                api "io.ktor:ktor-client-android:$ktor_version"
+                api "io.ktor:ktor-client-serialization-jvm:$ktor_version"
+
+            }
+        }
+    }
+}
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 21
+    }
+
+    testOptions.unitTests.includeAndroidResources = true
+}
