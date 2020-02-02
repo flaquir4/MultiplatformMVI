@@ -7,7 +7,7 @@ import kotlinx.coroutines.FlowPreview
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class ShowListPresenter(view: ShowListView, private val feature: ShowListFeature) {
+class ShowListPresenter(private val feature: ShowListFeature) {
 
     val state = feature.state
 
@@ -19,7 +19,7 @@ class ShowListPresenter(view: ShowListView, private val feature: ShowListFeature
 object ShowListPresenterFactory {
     @FlowPreview
     @ExperimentalCoroutinesApi
-    fun create(view: ShowListView): ShowListPresenter {
-        return ShowListPresenter(view, ShowListFeatureFactory.create())
+    fun create(): ShowListPresenter {
+        return ShowListPresenter(ShowListFeatureFactory.create())
     }
 }

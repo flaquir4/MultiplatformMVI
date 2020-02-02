@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(), ShowListView {
         setSupportActionBar(toolbar)
         adapter = TvShowAdapter()
 
-        val presenter = ShowListPresenterFactory.create(this)
+        val presenter = ShowListPresenterFactory.create()
 
         // fab.setOnClickListener {
         presenter.doIntent(ShowListView.UserIntent.GetShowList)

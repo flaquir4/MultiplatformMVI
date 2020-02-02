@@ -40,7 +40,7 @@ interface VideoListState : RState, ShowListView {
 class VideoList() : RComponent<RProps, VideoListState>() {
 
     override fun VideoListState.init() {
-        val presenter =  ShowListPresenterFactory.create(this)
+        val presenter =  ShowListPresenterFactory.create()
 
         presenter.doIntent(ShowListView.UserIntent.GetShowList)
         presenter.state.onEach {
