@@ -5,6 +5,7 @@ import cat.helm.common.showlist.data.entity.mapper.mapToTvShow
 import cat.helm.common.showlist.domain.TvShowRepository
 import cat.helm.common.showlist.domain.model.TvShow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -16,4 +17,12 @@ class TvShowDataRepository(
 
     override  fun getShows(): Flow<Result<List<TvShow>, Exception>> =
         tvShowApiDataSource.getShows().map { it.map { it.map { it.mapToTvShow() } } }
+}
+
+object TvShowDataRepositoryFactory {
+    @FlowPreview
+    @ExperimentalCoroutinesApi
+    fun create(): TvShowDataRepository {
+        return TvShowDataRepository(TvShowApiDataSourceFactory.create(), TvShowCacheDatasourceFactory.create())
+    }
 }

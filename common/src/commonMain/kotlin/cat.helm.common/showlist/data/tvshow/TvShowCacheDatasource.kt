@@ -15,3 +15,9 @@ class TvShowCacheDatasource {
         tvShowList.find { it.id == showId }
     }
 }
+
+object TvShowCacheDatasourceFactory {
+    fun create(): TvShowCacheDatasource {
+        return TvShowCacheDatasource()
+    }
+}
