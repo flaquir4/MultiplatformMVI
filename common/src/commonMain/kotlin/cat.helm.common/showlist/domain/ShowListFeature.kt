@@ -1,8 +1,11 @@
 package cat.helm.common.showlist.domain
 
 import cat.helm.common.showlist.domain.usecase.GetShows
+import cat.helm.common.showlist.domain.usecase.GetShowsFactory
 import cat.helm.common.showlist.view.ShowListView
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import kotlin.properties.Delegates
@@ -44,5 +47,13 @@ class ShowListFeature(val getShows: GetShows) {
                 println("pastel")
             }
             .launchIn(MainScope())
+    }
+}
+
+object ShowListFeatureFactory {
+    @FlowPreview
+    @ExperimentalCoroutinesApi
+    fun create(): ShowListFeature {
+        return ShowListFeature(GetShowsFactory.create())
     }
 }

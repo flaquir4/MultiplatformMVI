@@ -40,22 +40,8 @@ interface VideoListState : RState, ShowListView {
 class VideoList() : RComponent<RProps, VideoListState>() {
 
     override fun VideoListState.init() {
-        val presenter = ShowListPresenter(this, ShowListFeature(GetShows(TvShowDataRepository(TvShowApiDataSource(
-            HttpClient().config {
-                defaultRequest {
-                    host = ApiConstants.BASE_URL
-                    url {
-                        protocol = URLProtocol.HTTPS
-                        parameters["api_key"] = ApiConstants.API_KEY
-                    }
-                }
-                install(JsonFeature) {
-                    serializer = KotlinxSerializer()
-                }
-            }
-        ),
-            TvShowCacheDatasource()
-        ))))
+        val presenter =  ShowListPresenterFactory.create()
+
         presenter.doIntent(ShowListView.UserIntent.GetShowList)
         presenter.state.onEach {
             setState {
